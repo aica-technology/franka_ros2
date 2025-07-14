@@ -1,0 +1,34 @@
+#syntax=ghcr.io/aica-technology/package-builder:v1.4.0
+
+[signing]
+enabled = false
+
+[metadata]
+version = "2.0.0"
+description = "Franka collection for the Panda robot"
+
+[metadata.collection]
+name = "collections/franka-panda-collection"
+ros-name = "collections_franka_panda_collection"
+
+[build]
+type = "ros"
+image = "franka"
+
+[build.dependencies]
+"@aica/foss/control-libraries" = "v9.2.0"
+
+#[build.apt-repos]
+# libfranka = { deb-uri = 'https://github.com/aica-technology/franka_ros2/releases/download/v2.0.2/libfranka-0.15.0-x86_64.deb' }
+
+[build.packages.franka_msgs]
+source = "franka_msgs"
+
+#[build.packages.franka_hardware.dependencies.apt]
+#libpoco-dev = "*"
+
+[build.packages.franka_hardware]
+source = "franka_hardware"
+
+[build.packages.franka_description]
+source = "description"

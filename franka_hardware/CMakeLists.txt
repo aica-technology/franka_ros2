@@ -12,6 +12,23 @@ endif()
 
 option(CHECK_TIDY "Adds clang-tidy tests" OFF)
 
+include(FetchContent)
+# Where to find Poco (required by libfranka)
+list(TRANSFORM CMAKE_PREFIX_PATH APPEND "/usr/lib/$ENV{TRIPLET}/cmake/Poco/" OUTPUT_VARIABLE Poco_ROOT)
+# Where to find PCRE (required by Poco)
+list(TRANSFORM CMAKE_PREFIX_PATH APPEND "/usr" OUTPUT_VARIABLE PCRE_ROOT)
+# Because Poco includes PCRE, PCRE inherits its root var
+list(APPEND Poco_ROOT ${PCRE_ROOT})
+# libfranka options
+option(BUILD_TESTS OFF)
+option(BUILD_EXAMPLES OFF)
+FetchContent_Declare(
+  libfranka
+  GIT_REPOSITORY https://github.com/frankarobotics/libfranka
+  GIT_TAG        0.15.0
+)
+FetchContent_MakeAvailable(libfranka)
+
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -19,7 +36,6 @@ find_package(rclcpp_action REQUIRED)
 find_package(franka_msgs REQUIRED)
 find_package(hardware_interface REQUIRED)
 find_package(pluginlib REQUIRED)
-find_package(Franka 0.13.2 REQUIRED)
 find_package(rclcpp_components REQUIRED)
 
 add_library(franka_hardware SHARED
@@ -35,12 +51,16 @@ target_include_directories(
         franka_hardware
         PRIVATE
         include
+        PUBLIC
+        ${libfranka_SOURCE_DIR}/include
+        ${libfranka_SOURCE_DIR}/common/include
 )
+
+target_link_libraries(franka_hardware franka)
 
 ament_target_dependencies(
         franka_hardware
         hardware_interface
-        Franka
         pluginlib
         rclcpp
         rclcpp_action

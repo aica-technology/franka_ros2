@@ -1,0 +1,6 @@
+fr3.urdf:
+  name: "Franka Research 3"
+  description: "Franka Research 3 in default configuration"
+fr3_mock.urdf:
+  name: "Franka Research 3 Mock"
+  description: "Franka Research 3 with mock interface"

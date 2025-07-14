@@ -122,6 +122,13 @@ std::vector<StateInterface> FrankaHardwareInterface::export_state_interfaces() {
         StateInterface(elbow_state_names_.at(i), k_HW_IF_ELBOW_STATE, &elbow_state_.at(i)));
   }
 
+  state_interfaces.emplace_back(StateInterface(info_.sensors[0].name, "force.x", &estimated_wrench_.at(0)));
+  state_interfaces.emplace_back(StateInterface(info_.sensors[0].name, "force.y", &estimated_wrench_.at(1)));
+  state_interfaces.emplace_back(StateInterface(info_.sensors[0].name, "force.z", &estimated_wrench_.at(2)));
+  state_interfaces.emplace_back(StateInterface(info_.sensors[0].name, "torque.x", &estimated_wrench_.at(3)));
+  state_interfaces.emplace_back(StateInterface(info_.sensors[0].name, "torque.y", &estimated_wrench_.at(4)));
+  state_interfaces.emplace_back(StateInterface(info_.sensors[0].name, "torque.z", &estimated_wrench_.at(5)));
+
   state_interfaces.emplace_back(StateInterface(arm_id_, "robot_time", &robot_time_state_));
 
   return state_interfaces;
@@ -216,6 +223,7 @@ hardware_interface::return_type FrankaHardwareInterface::read(const rclcpp::Time
   hw_efforts_ = hw_franka_robot_state_.tau_J;
   elbow_state_ = hw_franka_robot_state_.elbow;
   cartesian_pose_state_ = hw_franka_robot_state_.O_T_EE;
+  estimated_wrench_ = -hw_franka_robot_state_.K_F_ext_hat_K;;
 
   return hardware_interface::return_type::OK;
 }

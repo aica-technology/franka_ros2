@@ -106,6 +106,7 @@ class FrankaHardwareInterface : public hardware_interface::SystemInterface {
   // Cartesian States
   std::array<double, 16> cartesian_pose_state_{1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1};
   std::array<double, 2> elbow_state_{0, 0};
+  std::array<double, 6> estimated_wrench_{0, 0, 0, 0, 0, 0};
 
   /**
    * Desired Cartesian velocity with respect to the o-frame

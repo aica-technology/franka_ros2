@@ -1,0 +1,6 @@
+FROM ghcr.io/aica-technology/ros2-ws:v2.0.5-jazzy
+
+RUN sudo apt update && sudo apt install -y --no-install-recommends \
+    libpoco-dev \
+    && sudo apt clean \
+    && sudo rm -rf /var/lib/apt/lists/*
