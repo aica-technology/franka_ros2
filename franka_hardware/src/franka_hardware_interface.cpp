@@ -223,7 +223,8 @@ hardware_interface::return_type FrankaHardwareInterface::read(const rclcpp::Time
   hw_efforts_ = hw_franka_robot_state_.tau_J;
   elbow_state_ = hw_franka_robot_state_.elbow;
   cartesian_pose_state_ = hw_franka_robot_state_.O_T_EE;
-  estimated_wrench_ = -hw_franka_robot_state_.K_F_ext_hat_K;;
+  std::transform(hw_franka_robot_state_.K_F_ext_hat_K.begin(), hw_franka_robot_state_.K_F_ext_hat_K.end(),
+                 estimated_wrench_.begin(), [](double val) { return -1.0 * val; });
 
   return hardware_interface::return_type::OK;
 }
