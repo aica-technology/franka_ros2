@@ -17,6 +17,7 @@ image = "franka"
 
 [build.dependencies]
 "@aica/foss/control-libraries" = "v9.2.0"
+"@aica/foss/modulo" = "v5.2.3"
 
 #[build.apt-repos]
 # libfranka = { deb-uri = 'https://github.com/aica-technology/franka_ros2/releases/download/v2.0.2/libfranka-0.15.0-x86_64.deb' }
@@ -32,3 +33,9 @@ source = "franka_hardware"
 
 [build.packages.franka_description]
 source = "description"
+
+[build.packages.franka_semantic_components]
+source = "franka_semantic_components"
+
+[build.packages.franka_controllers]
+source = "franka_controllers"

@@ -21,6 +21,7 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
     sensor_msgs
     hardware_interface
     rclcpp_lifecycle
+    controller_interface
     urdf)
 
 # find dependencies
@@ -104,6 +105,7 @@ if(BUILD_TESTING)
     sensor_msgs
     geometry_msgs
     Franka
+    controller_interface
   )
 
   ament_add_gmock(
