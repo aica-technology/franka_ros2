@@ -1,0 +1,25 @@
+#syntax=ghcr.io/aica-technology/package-builder:v1.4.6
+
+[signing]
+enabled = false
+
+[metadata]
+version = "0.1.0"
+description = "Franka collection"
+
+[metadata.collection]
+name = "collections/franka-collection"
+ros-name = "collections_franka_collection"
+
+[build]
+type = "ros"
+image = "v2.0.6-jazzy"
+
+[build.dependencies]
+"@aica/foss/control-libraries" = "v9.2.0"
+
+[build.packages.franka_msgs]
+source = "franka_msgs"
+
+[build.packages.franka_hardware]
+source = "franka_hardware"

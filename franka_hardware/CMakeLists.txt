@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 project(franka_hardware)
 
 if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 17)
+  set(CMAKE_CXX_STANDARD 20)
   set(CMAKE_CXX_STANDARD_REQUIRED ON)
 endif()
 
@@ -12,7 +12,18 @@ endif()
 
 option(CHECK_TIDY "Adds clang-tidy tests" OFF)
 
+include(FetchContent)
+FetchContent_Declare(
+  libfranka
+  GIT_REPOSITORY      https://github.com/frankarobotics/libfranka
+  GIT_TAG             0.17.0
+  PATCH_COMMAND       git apply ${CMAKE_CURRENT_SOURCE_DIR}/libfranka.patch
+  UPDATE_DISCONNECTED 1
+)
+FetchContent_MakeAvailable(libfranka)
+
 # find dependencies
+list(APPEND CMAKE_PREFIX_PATH ${libfranka_BINARY_DIR})
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_action REQUIRED)
